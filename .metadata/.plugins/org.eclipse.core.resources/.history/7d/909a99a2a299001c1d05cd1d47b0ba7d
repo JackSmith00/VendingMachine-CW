@@ -1,0 +1,18 @@
+package hardwareComponents;
+
+import vendingMachine.Product;
+import vendingMachine.VendingMachine;
+
+public class StockScanner {
+	
+	private Product product;
+	
+	public StockScanner(Product assignedProduct) {
+		this.product = assignedProduct;
+	}
+	
+	public boolean checkAvailability() {
+		return VendingMachine.getStock(product) > 0;
+	}
+
+}

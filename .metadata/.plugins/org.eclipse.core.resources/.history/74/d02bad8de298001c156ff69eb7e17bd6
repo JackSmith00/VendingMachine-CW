@@ -1,0 +1,10 @@
+package hardwareComponents;
+
+/**
+ * A class to provide the functionality of the 
+ * @author Jack
+ *
+ */
+public class CoinReader {
+
+}

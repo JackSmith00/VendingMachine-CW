@@ -1,0 +1,5 @@
+package hardwareComponents;
+
+public class CoinReader {
+
+}

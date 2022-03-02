@@ -1,0 +1,18 @@
+package vendingMachine;
+
+import java.util.HashMap;
+
+public class VendingMachine {
+
+	private HashMap<Product, Integer> stock;
+	
+	public int getStock(Product product) {
+		return stock.get(product);
+	}
+	
+	public void stockProduct(Product product, int amount) {
+		if(amount > 0) { // prevent negative adding of stock
+			stock.replace(product, stock.get(product) + amount); // add amount to current stock
+		}
+	}
+}

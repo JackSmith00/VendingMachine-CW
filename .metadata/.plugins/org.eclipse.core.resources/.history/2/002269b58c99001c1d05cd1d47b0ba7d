@@ -1,0 +1,5 @@
+package paymentMethods;
+
+public class LoyaltyCard {
+
+}

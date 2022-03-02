@@ -1,0 +1,11 @@
+package hardwareComponents;
+
+import java.util.EnumMap;
+
+import vendingMachine.Product;
+
+public class DrinkDispenser {
+
+	private EnumMap<Product, StockScanner> shelf;
+	
+}

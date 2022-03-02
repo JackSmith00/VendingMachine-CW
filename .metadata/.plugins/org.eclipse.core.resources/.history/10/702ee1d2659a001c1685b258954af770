@@ -1,0 +1,9 @@
+package vendingMachine;
+
+import java.math.BigDecimal;
+import java.util.EnumMap;
+
+public class VendingMachineController {
+
+	private EnumMap<Product, BigDecimal> prices;
+}

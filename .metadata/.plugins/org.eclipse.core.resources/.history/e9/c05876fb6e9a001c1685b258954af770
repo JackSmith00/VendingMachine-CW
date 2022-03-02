@@ -1,0 +1,29 @@
+package hardwareComponents;
+
+import java.util.EnumMap;
+
+import vendingMachine.Product;
+
+public class DrinkDispenser {
+
+	private EnumMap<Product, StockScanner> shelf;
+	
+	public DrinkDispenser(StockScanner coke, StockScanner lemonade, StockScanner tango, StockScanner water, StockScanner pepsi, StockScanner sprite) {
+		shelf.put(Product.COKE, coke);
+		shelf.put(Product.LEMONADE, lemonade);
+		shelf.put(Product.TANGO, tango);
+		shelf.put(Product.WATER, water);
+		shelf.put(Product.PEPSI, pepsi);
+		shelf.put(Product.SPRITE, sprite);
+	}
+	
+	/**
+	 * Dispenses one item from the vending machine
+	 * 
+	 * @param product the product to dispense
+	 */
+	public void dispense(Product product) {
+		shelf.get(product).setStock(shelf.get(product).getStock() - 1); // decrease the stock of the product by 1
+	}
+	
+}

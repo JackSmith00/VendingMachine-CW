@@ -1,0 +1,36 @@
+package vendingMachine;
+
+import java.math.BigDecimal;
+import java.util.EnumMap;
+
+import hardwareComponents.StockScanner;
+
+public class VendingMachineController {
+
+	private EnumMap<Product, BigDecimal> prices = new EnumMap<Product, BigDecimal>(Product.class);
+	private StockScanner cokeScanner, lemonadeScanner, tangoScanner, waterScanner, pepsiScanner, spriteScanner;
+	
+	public static void main(String[] args) {
+		
+		VendingMachineController controller = new VendingMachineController();
+		System.out.println(controller.prices.keySet());
+	}
+	
+	/**
+	 * Give initial stock values to each scanner
+	 * in the vending machine to replicate
+	 * the actual stock
+	 */
+	private void initialiseScanners() {
+		cokeScanner = new StockScanner(5);
+		lemonadeScanner = new StockScanner(7);
+		tangoScanner = new StockScanner(2);
+		waterScanner = new StockScanner(10);
+		pepsiScanner = new StockScanner(4);
+		spriteScanner = new StockScanner(0);
+	}
+	
+	private void setPrices() {
+		
+	}
+}

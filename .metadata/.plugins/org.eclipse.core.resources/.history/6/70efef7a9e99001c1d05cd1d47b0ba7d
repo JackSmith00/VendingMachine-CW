@@ -1,0 +1,27 @@
+import java.math.BigDecimal;
+
+public enum Products {
+
+	COKE, LEMONADE, TANGO, WATER, PEPSI, SPRITE;
+	
+	public BigDecimal getPrice() {
+		switch(this) {
+		case COKE:
+			return BigDecimal.valueOf(1.)
+			break;
+		case LEMONADE:
+			break;
+		case PEPSI:
+			break;
+		case SPRITE:
+			break;
+		case TANGO:
+			break;
+		case WATER:
+			break;
+		default:
+			break;
+		
+		}
+	}
+}

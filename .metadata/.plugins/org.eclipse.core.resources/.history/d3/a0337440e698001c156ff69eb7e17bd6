@@ -1,0 +1,30 @@
+package paymentMethods;
+
+import java.math.BigDecimal;
+import java.util.Currency;
+
+public class Cash {
+	
+	private Currency currency;
+	private BigDecimal value; // https://softwareengineering.stackexchange.com/questions/228584/why-is-bigdecimal-the-best-data-type-for-currency
+	private boolean isFake;
+	
+	public Cash(Currency currency, double value, boolean isFake) {
+		this.currency = currency;
+		this.value = new BigDecimal(value);
+		this.isFake = isFake;
+	}
+	
+	public Cash(Currency currency, double value) {
+		this(currency, value, false);
+	}
+	
+	public Currency getCurrency() {
+		return currency;
+	}
+	
+	public BigDecimal getValue() {
+		return value;
+	}
+
+}

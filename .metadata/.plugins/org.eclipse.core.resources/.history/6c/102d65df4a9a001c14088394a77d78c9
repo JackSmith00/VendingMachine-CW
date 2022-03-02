@@ -1,0 +1,28 @@
+package staticElements;
+
+import java.util.HashMap;
+
+import vendingMachine.Product;
+
+public class VendingMachine {
+
+	@SuppressWarnings("serial")
+	private static final HashMap<Product, Integer> stock = new HashMap<Product, Integer>(){{
+		put(Product.COKE, 5);
+		put(Product.LEMONADE, 2);
+		put(Product.TANGO, 6);
+		put(Product.WATER, 10);
+		put(Product.SPRITE, 0);
+		put(Product.PEPSI, 4);
+	}};
+	
+	public static int getStock(Product product) {
+		return stock.get(product);
+	}
+	
+	public static void stockProduct(Product product, int amount) {
+		if(amount > 0) { // prevent negative adding of stock
+			stock.replace(product, stock.get(product) + amount); // add amount to current stock
+		}
+	}
+}
