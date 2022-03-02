@@ -1,8 +1,0 @@
-package hardwareComponents;
-
-
-public class StockScanner {
-	
-	private Product product;
-
-}

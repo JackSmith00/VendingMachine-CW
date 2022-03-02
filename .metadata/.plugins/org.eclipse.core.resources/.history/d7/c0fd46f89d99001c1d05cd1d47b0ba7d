@@ -1,5 +1,0 @@
-
-public enum Products {
-
-	COKE, LEMONADE, TANGO, WATER, PEPSI, SPRITE;
-}
