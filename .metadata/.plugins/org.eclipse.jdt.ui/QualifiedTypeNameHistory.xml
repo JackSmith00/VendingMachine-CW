@@ -12,7 +12,14 @@
     <fullyQualifiedTypeName name="Product"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="vendingMachine.VendingMachine"/>
+    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
+    <fullyQualifiedTypeName name="vendingMachine.VendingMachineController"/>
+    <fullyQualifiedTypeName name="hardwareComponents.DrinkDispenser"/>
+    <fullyQualifiedTypeName name="java.lang.Package"/>
+    <fullyQualifiedTypeName name="org.graalvm.compiler.code.DisassemblerProvider"/>
+    <fullyQualifiedTypeName name="hardwareComponents.ProductDispenser"/>
     <fullyQualifiedTypeName name="java.util.EnumMap"/>
     <fullyQualifiedTypeName name="vendingMachine.Product"/>
-    <fullyQualifiedTypeName name="java.math.BigDecimal"/>
+    <fullyQualifiedTypeName name="hardwareComponents.StockScanner"/>
+    <fullyQualifiedTypeName name="javax.swing.JFrame"/>
 </qualifiedTypeNameHistroy>
