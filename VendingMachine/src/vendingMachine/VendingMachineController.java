@@ -1,22 +1,36 @@
 package vendingMachine;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.EnumMap;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
+import gui.VendingMachineGUI;
+import hardwareComponents.CardScanner;
+import hardwareComponents.CashReceiver;
 import hardwareComponents.ProductDispenser;
 import hardwareComponents.StockScanner;
 
-public class VendingMachineController {
+public class VendingMachineController implements ActionListener {
 
 	private EnumMap<Product, BigDecimal> prices = new EnumMap<Product, BigDecimal>(Product.class);
 	private StockScanner cokeScanner, lemonadeScanner, tangoScanner, waterScanner, pepsiScanner, spriteScanner;
 	private ProductDispenser dispenser;
+	private CashReceiver cashReceiver;
+	private CardScanner cardScanner;
+	
+	private VendingMachineGUI gui;
+	private JLabel output;
 	
 	public static void main(String[] args) {
 		
 		VendingMachineController controller = new VendingMachineController();
+		controller.gui = new VendingMachineGUI(controller, controller.cashReceiver, controller.cardScanner);
+		controller.gui.setVisible(true);
+		controller.output = controller.gui.getOutput();
 		
 	}
 	
@@ -28,6 +42,8 @@ public class VendingMachineController {
 	public VendingMachineController() {
 		initialiseScanners();
 		dispenser = new ProductDispenser(cokeScanner, lemonadeScanner, tangoScanner, waterScanner, pepsiScanner, spriteScanner);
+		cashReceiver = new CashReceiver(this);
+		cardScanner = new CardScanner();
 		setPrices(1.5, 1.2, 1.4, 1, 1.3, 1.2);
 	}
 	
@@ -65,5 +81,20 @@ public class VendingMachineController {
 			prices.replace(Product.PEPSI, BigDecimal.valueOf(pepsi));
 			prices.replace(Product.SPRITE, BigDecimal.valueOf(sprite));
 		}
+	}
+	
+	public double getPrice(Product product) {
+		return prices.get(product).doubleValue();
+	}
+	
+	public void creditUpdated() {
+		output.setText("Credit: " + gui.formatCurrency(cashReceiver.getCredit().doubleValue()));
+		gui.setSelectorEnabled(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
