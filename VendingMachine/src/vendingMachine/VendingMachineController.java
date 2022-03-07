@@ -9,19 +9,26 @@ import java.util.TimerTask;
 
 import javax.swing.JLabel;
 
+import demoClasses.DemoCardScanner;
+import demoClasses.DemoCashReceiver;
+import demoClasses.DemoDispenser;
+import demoClasses.DemoStockScanner;
+import demoClasses.VirtualWallet;
+import externalElements.Bank;
 import gui.VendingMachineGUI;
 import hardwareComponents.CardScanner;
 import hardwareComponents.CashReceiver;
-import hardwareComponents.ProductDispenser;
+import hardwareComponents.Dispenser;
 import hardwareComponents.StockScanner;
 
 public class VendingMachineController implements ActionListener {
 
 	private EnumMap<Product, BigDecimal> prices = new EnumMap<Product, BigDecimal>(Product.class);
+	private EnumMap<Product, StockScanner> stockScanners = new EnumMap<Product, StockScanner>(Product.class);
 	private Timer timer;
 	
 	private StockScanner cokeScanner, lemonadeScanner, tangoScanner, waterScanner, pepsiScanner, spriteScanner;
-	private ProductDispenser dispenser;
+	private Dispenser dispenser;
 	private CashReceiver cashReceiver;
 	private CardScanner cardScanner;
 	
@@ -29,12 +36,21 @@ public class VendingMachineController implements ActionListener {
 	private JLabel output;
 	
 	private boolean cardCustomer = false;
+	private final double discount = 0.25;
 	
 	public static void main(String[] args) {
 		
 		VendingMachineController controller = new VendingMachineController();
-		controller.gui = new VendingMachineGUI(controller, controller.cashReceiver, controller.cardScanner);
+		
+		controller.gui = new VendingMachineGUI(controller);
+		controller.gui.setBounds(200, 80, 500, 700);
 		controller.gui.setVisible(true);
+		
+		VirtualWallet virtualWallet = new VirtualWallet((DemoCashReceiver)controller.cashReceiver, (DemoCardScanner)controller.cardScanner);
+		virtualWallet.pack();
+		virtualWallet.setLocation(720, 150);
+		virtualWallet.setVisible(true);
+		
 		controller.output = controller.gui.getOutput();
 		
 	}
@@ -46,9 +62,9 @@ public class VendingMachineController implements ActionListener {
 	 */
 	public VendingMachineController() {
 		initialiseScanners();
-		dispenser = new ProductDispenser(cokeScanner, lemonadeScanner, tangoScanner, waterScanner, pepsiScanner, spriteScanner);
-		cashReceiver = new CashReceiver(this);
-		cardScanner = new CardScanner(this);
+		dispenser = new DemoDispenser((DemoStockScanner)cokeScanner, (DemoStockScanner)lemonadeScanner, (DemoStockScanner)tangoScanner, (DemoStockScanner)waterScanner, (DemoStockScanner)pepsiScanner, (DemoStockScanner)spriteScanner);
+		cashReceiver = new DemoCashReceiver(this);
+		cardScanner = new DemoCardScanner(this);
 		timer = new Timer();
 		setPrices(1.5, 1.2, 1.4, 1, 1.3, 1.2);
 	}
@@ -59,12 +75,23 @@ public class VendingMachineController implements ActionListener {
 	 * the actual stock
 	 */
 	private void initialiseScanners() {
-		cokeScanner = new StockScanner(5);
-		lemonadeScanner = new StockScanner(7);
-		tangoScanner = new StockScanner(2);
-		waterScanner = new StockScanner(10);
-		pepsiScanner = new StockScanner(4);
-		spriteScanner = new StockScanner(0);
+		cokeScanner = new DemoStockScanner(5);
+		stockScanners.put(Product.COKE, cokeScanner);
+		
+		lemonadeScanner = new DemoStockScanner(7);
+		stockScanners.put(Product.LEMONADE, lemonadeScanner);
+		
+		tangoScanner = new DemoStockScanner(2);
+		stockScanners.put(Product.TANGO, tangoScanner);
+		
+		waterScanner = new DemoStockScanner(10);
+		stockScanners.put(Product.WATER, waterScanner);
+
+		pepsiScanner = new DemoStockScanner(4);
+		stockScanners.put(Product.PEPSI, pepsiScanner);
+		
+		spriteScanner = new DemoStockScanner(0);
+		stockScanners.put(Product.SPRITE, spriteScanner);
 	}
 	
 	/**
@@ -117,8 +144,8 @@ public class VendingMachineController implements ActionListener {
 	public void cardScanned(boolean valid) {
 		if(valid) { // when a legitimate card is scanned
 			cardCustomer = true;
-			output.setText("Account linked");
-			applyAmountDiscount(0.25); // discount by 25p
+			output.setText(VendingMachineGUI.CARD_LOGIN_MESSAGE);
+			applyAmountDiscount(discount); // discount by 25p
 			gui.setSelectorEnabled(true);
 		} else { // when card is not legitimate
 			String originalText = output.getText();
@@ -140,7 +167,79 @@ public class VendingMachineController implements ActionListener {
 	
 	//TODO
 	private void purchase(Product product) {
+		// check drink availability
+		if(!stockScanners.get(product).checkAvailability()) {
+			// out of stock
+			String originalText = output.getText();
+			output.setText("Product not available, sorry");
+			timer.schedule(new TimerTask() {	
+				@Override
+				public void run() {
+					if(output.getText().compareTo("Product not available, sorry") == 0) {
+						output.setText(originalText);
+					}
+				}
+			}, 1500);
+			return;
+		}
 		
+		// product in stock
+		if(cardCustomer) {
+			// try to charge from bank
+			if(Bank.chargeAccount(cardScanner.getScannedCard().getCardNumber(), prices.get(product))) {
+				// where there are sufficient funds
+				dispenser.dispense(product);
+				output.setText("Purchase successful");
+			} else {
+				// where there are insufficient funds
+				output.setText("Insufficient funds");
+			}	
+		} else { // cash customer
+			// try to charge from inserted cash
+			if(cashReceiver.charge(prices.get(product))) {
+				// where there are sufficient funds
+				dispenser.dispense(product);
+				output.setText("Purchase successful");
+			} else {
+				// where there are insufficient funds
+				output.setText("Insufficient funds");
+			}
+		}
+		if(cashReceiver.isEmpty() && !cardCustomer) {
+			gui.setSelectorEnabled(false);
+			timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					if(output.getText().compareTo("Purchase successful") == 0) {
+						output.setText(VendingMachineGUI.PLACEHOLDER);
+					}
+				}
+			}, 1500);
+		} else if(cardCustomer) {
+			timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					if(output.getText().compareTo("Purchase successful") == 0
+							|| output.getText().compareTo("Insufficient funds") == 0) {
+						output.setText(VendingMachineGUI.CARD_LOGIN_MESSAGE);
+					}
+				}
+			}, 1500);
+		} else {
+			timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					if(output.getText().compareTo("Purchase successful") == 0
+							|| output.getText().compareTo("Insufficient funds") == 0) {
+						output.setText("Credit: " + gui.formatCurrency(cashReceiver.getCredit().doubleValue()));
+					}
+				}
+			}, 1500);
+			
+		}
 	}
 	
 	//TODO
@@ -160,8 +259,8 @@ public class VendingMachineController implements ActionListener {
 			output.setText("Signed out");
 		}
 		
-		if(cashReceiver.getCredit().compareTo(BigDecimal.valueOf(0)) > 0) {
-			double ejected = cashReceiver.ejectAll();
+		if(!cashReceiver.isEmpty()) {
+			double ejected = cashReceiver.eject();
 			cashReturned = true;
 			timer.schedule(new TimerTask() {
 				@Override
@@ -177,11 +276,12 @@ public class VendingMachineController implements ActionListener {
 			@Override
 			public void run() {
 				if(output.getText().startsWith("Ejected: ") || output.getText().compareTo("Signed out") == 0) {
-					output.setText(gui.getPlaceholder());
+					output.setText(VendingMachineGUI.PLACEHOLDER);
 				}
 			}
 		}, cardCustomer && cashReturned ? 3000 : 1600);
 		
+		applyAmountDiscount(-discount);
 		cardCustomer = false;
 	}
 
@@ -190,7 +290,9 @@ public class VendingMachineController implements ActionListener {
 		
 		switch(e.getActionCommand()) {
 		case "Purchase":
-			purchase(gui.getSelectedProduct());
+			if(gui.getSelectedProduct() != null) {
+				purchase(gui.getSelectedProduct());
+			}
 			break;
 		case "Clear":
 			clear();

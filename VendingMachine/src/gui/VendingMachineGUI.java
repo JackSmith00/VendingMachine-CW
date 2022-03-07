@@ -4,16 +4,22 @@
  */
 package gui;
 
+import java.awt.BorderLayout;
 import java.text.NumberFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 
-import hardwareComponents.CardScanner;
-import hardwareComponents.CashReceiver;
 import vendingMachine.Product;
 import vendingMachine.VendingMachineController;
 
@@ -24,11 +30,11 @@ import vendingMachine.VendingMachineController;
 public class VendingMachineGUI extends javax.swing.JFrame {
 
 	private VendingMachineController controller;
-	private CashReceiver cashReceiver;
-	private CardScanner cardScanner;
 	
 	private HashMap<ButtonModel, Product> buttonProduct;
-	private final String placeholder = "Insert Credit...";
+	
+	public static final String PLACEHOLDER = "Insert Credit...";
+	public static final String CARD_LOGIN_MESSAGE = "Account linked";
 	
 	/*
 	 * The code below was researched at the following resource:
@@ -46,16 +52,10 @@ public class VendingMachineGUI extends javax.swing.JFrame {
     /**
      * Creates new form VendingMachineGUI
      */
-    public VendingMachineGUI(VendingMachineController controller, CashReceiver cashReceiver, CardScanner cardScanner) {
+    public VendingMachineGUI(VendingMachineController controller) {
         this.controller = controller;
-        this.cashReceiver = cashReceiver;
-        this.cardScanner = cardScanner;
     	initComponents();
     	updatePrices();
-    	setBounds(200, 80, 500, 700);
-        walletDialog.setVisible(true);
-        walletDialog.pack();
-        walletDialog.setLocation(720, 150);
     }
 
     /**
@@ -66,386 +66,186 @@ public class VendingMachineGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        walletDialog = new javax.swing.JDialog();
-        walletPanel = new javax.swing.JPanel();
-        cashPanel = new javax.swing.JPanel();
-        cashButton1p = new javax.swing.JButton();
-        cashButton2p = new javax.swing.JButton();
-        cashButton5p = new javax.swing.JButton();
-        cashButton10p = new javax.swing.JButton();
-        cashButton20p = new javax.swing.JButton();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
-        cashButton50p = new javax.swing.JButton();
-        cashButton1pound = new javax.swing.JButton();
-        cashButton2pound = new javax.swing.JButton();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
-        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
-        cashButton5pound = new javax.swing.JButton();
-        cashButton10pound = new javax.swing.JButton();
-        cashButton20pound = new javax.swing.JButton();
-        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(32767, 50));
-        fakeCashPanel = new javax.swing.JPanel();
-        fakeCashButton1p = new javax.swing.JButton();
-        fakeCashButton2p = new javax.swing.JButton();
-        fakeCashButton5p = new javax.swing.JButton();
-        fakeCashButton10p = new javax.swing.JButton();
-        fakeCashButton20p = new javax.swing.JButton();
-        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
-        fakeCashButton50p = new javax.swing.JButton();
-        cashButton1dollar = new javax.swing.JButton();
-        cashButton2euro = new javax.swing.JButton();
-        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
-        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
-        cashButton5dollar = new javax.swing.JButton();
-        cashButton10yen = new javax.swing.JButton();
-        fakeCashButton20pound = new javax.swing.JButton();;
-        legitimateCardPanel = new javax.swing.JPanel();
-        loyaltyCard1Button = new javax.swing.JButton();
-        loyaltyCard2Button = new javax.swing.JButton();
-        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 50), new java.awt.Dimension(0, 25), new java.awt.Dimension(32767, 50));
-        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 50), new java.awt.Dimension(0, 25), new java.awt.Dimension(32767, 50));
-        unrecognisedCardPanel = new javax.swing.JPanel();
-        unrecognisedCard1Button = new javax.swing.JButton();
-        unrecognisedCard2Button = new javax.swing.JButton();
-        productSelector = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        contentPanel = new javax.swing.JPanel();
-        outputPanel = new javax.swing.JPanel();
-        output = new javax.swing.JLabel();
-        selectionPanel = new javax.swing.JPanel();
-        cokePanel = new javax.swing.JPanel();
-        cokeButton = new javax.swing.JToggleButton();
-        cokeLabelPanel = new javax.swing.JPanel();
-        cokeLabel = new javax.swing.JLabel();
-        cokePrice = new javax.swing.JLabel();
-        lemonadePanel = new javax.swing.JPanel();
-        lemonadeButton = new javax.swing.JToggleButton();
-        lemonadeLabelPanel = new javax.swing.JPanel();
-        lemonadeLabel = new javax.swing.JLabel();
-        lemonadePrice = new javax.swing.JLabel();
-        tangoPanel = new javax.swing.JPanel();
-        tangoButton = new javax.swing.JToggleButton();
-        tangoLabelPanel = new javax.swing.JPanel();
-        tangoLabel = new javax.swing.JLabel();
-        tangoPrice = new javax.swing.JLabel();
-        waterPanel = new javax.swing.JPanel();
-        waterButton = new javax.swing.JToggleButton();
-        waterLabelPanel = new javax.swing.JPanel();
-        waterLabel = new javax.swing.JLabel();
-        waterPrice = new javax.swing.JLabel();
-        pepsiPanel = new javax.swing.JPanel();
-        pepsiButton = new javax.swing.JToggleButton();
-        pepsiLabelPanel = new javax.swing.JPanel();
-        pepsiLabel = new javax.swing.JLabel();
-        pepsiPrice = new javax.swing.JLabel();
-        spritePanel = new javax.swing.JPanel();
-        spriteButton = new javax.swing.JToggleButton();
-        spriteLabelPanel = new javax.swing.JPanel();
-        spriteLabel = new javax.swing.JLabel();
-        spritePrice = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        purchaseButton = new javax.swing.JButton();
-        clearButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
+        productSelector = new ButtonGroup();
+        jPanel1 = new JPanel();
+        jLabel1 = new JLabel();
+        contentPanel = new JPanel();
+        outputPanel = new JPanel();
+        output = new JLabel();
+        selectionPanel = new JPanel();
+        cokePanel = new JPanel();
+        cokeButton = new JToggleButton();
+        cokeLabelPanel = new JPanel();
+        cokeLabel = new JLabel();
+        cokePrice = new JLabel();
+        lemonadePanel = new JPanel();
+        lemonadeButton = new JToggleButton();
+        lemonadeLabelPanel = new JPanel();
+        lemonadeLabel = new JLabel();
+        lemonadePrice = new JLabel();
+        tangoPanel = new JPanel();
+        tangoButton = new JToggleButton();
+        tangoLabelPanel = new JPanel();
+        tangoLabel = new JLabel();
+        tangoPrice = new JLabel();
+        waterPanel = new JPanel();
+        waterButton = new JToggleButton();
+        waterLabelPanel = new JPanel();
+        waterLabel = new JLabel();
+        waterPrice = new JLabel();
+        pepsiPanel = new JPanel();
+        pepsiButton = new JToggleButton();
+        pepsiLabelPanel = new JPanel();
+        pepsiLabel = new JLabel();
+        pepsiPrice = new JLabel();
+        spritePanel = new JPanel();
+        spriteButton = new JToggleButton();
+        spriteLabelPanel = new JPanel();
+        spriteLabel = new JLabel();
+        spritePrice = new JLabel();
+        jPanel3 = new JPanel();
+        purchaseButton = new JButton();
+        clearButton = new JButton();
+        cancelButton = new JButton();
         buttonProduct = new HashMap<ButtonModel, Product>();
 
-        walletDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        walletDialog.setTitle("Wallet");
-        walletDialog.setAutoRequestFocus(false);
-        walletDialog.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        walletDialog.setResizable(false);
-
-        walletPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        walletPanel.setLayout(new javax.swing.BoxLayout(walletPanel, javax.swing.BoxLayout.PAGE_AXIS));
-
-        cashPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cash"));
-        cashPanel.setLayout(new java.awt.GridLayout(3, 0, 10, 10));
-
-        cashButton1p.setText("1p");
-        cashButton1p.addActionListener(cashReceiver);
-        cashPanel.add(cashButton1p);
-
-        cashButton2p.setText("2p");
-        cashButton2p.addActionListener(cashReceiver);
-        cashPanel.add(cashButton2p);
-
-        cashButton5p.setText("5p");
-        cashButton5p.addActionListener(cashReceiver);
-        cashPanel.add(cashButton5p);
-
-        cashButton10p.setText("10p");
-        cashButton10p.addActionListener(cashReceiver);
-        cashPanel.add(cashButton10p);
-
-        cashButton20p.setText("20p");
-        cashButton20p.addActionListener(cashReceiver);
-        cashPanel.add(cashButton20p);
         
-        cashPanel.add(filler1);
-
-        cashButton50p.setText("50p");
-        cashButton50p.addActionListener(cashReceiver);
-        cashPanel.add(cashButton50p);
-
-        cashButton1pound.setText("£1");
-        cashButton1pound.addActionListener(cashReceiver);
-        cashPanel.add(cashButton1pound);
-
-        cashButton2pound.setText("£2");
-        cashButton2pound.addActionListener(cashReceiver);
-        cashPanel.add(cashButton2pound);
-        
-        cashPanel.add(filler2);
-        cashPanel.add(filler3);
-
-        cashButton5pound.setText("£5");
-        cashButton5pound.addActionListener(cashReceiver);
-        cashPanel.add(cashButton5pound);
-
-        cashButton10pound.setText("£10");
-        cashButton10pound.addActionListener(cashReceiver);
-        cashPanel.add(cashButton10pound);
-
-        cashButton20pound.setText("£20");
-        cashButton20pound.addActionListener(cashReceiver);
-        cashPanel.add(cashButton20pound);
-
-        walletPanel.add(cashPanel);
-        walletPanel.add(filler7);
-
-        fakeCashPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Fake/Foreign Cash"));
-        fakeCashPanel.setLayout(new java.awt.GridLayout(3, 0, 10, 10));
-
-        fakeCashButton1p.setText("1pee");
-        fakeCashButton1p.addActionListener(cashReceiver);
-        fakeCashPanel.add(fakeCashButton1p);
-
-        fakeCashButton2p.setText("2c");
-        fakeCashButton2p.addActionListener(cashReceiver);
-        fakeCashPanel.add(fakeCashButton2p);
-
-        fakeCashButton5p.setText("5d");
-        fakeCashButton5p.addActionListener(cashReceiver);
-        fakeCashPanel.add(fakeCashButton5p);
-
-        fakeCashButton10p.setText("ten");
-        fakeCashButton10p.addActionListener(cashReceiver);
-        fakeCashPanel.add(fakeCashButton10p);
-
-        fakeCashButton20p.setText("2-0p");
-        fakeCashButton20p.addActionListener(cashReceiver);
-        fakeCashPanel.add(fakeCashButton20p);
-        
-        fakeCashPanel.add(filler4);
-
-        fakeCashButton50p.setText("50");
-        fakeCashButton50p.addActionListener(cashReceiver);
-        fakeCashPanel.add(fakeCashButton50p);
-
-        cashButton1dollar.setText("$1");
-        cashButton1dollar.addActionListener(cashReceiver);
-        fakeCashPanel.add(cashButton1dollar);
-
-        cashButton2euro.setText("€2");
-        cashButton2euro.addActionListener(cashReceiver);
-        fakeCashPanel.add(cashButton2euro);
-        
-        fakeCashPanel.add(filler5);
-        fakeCashPanel.add(filler6);
-
-        cashButton5dollar.setText("$5");
-        cashButton5dollar.addActionListener(cashReceiver);
-        fakeCashPanel.add(cashButton5dollar);
-
-        cashButton10yen.setText("¥10");
-        cashButton10yen.addActionListener(cashReceiver);
-        fakeCashPanel.add(cashButton10yen);
-
-        fakeCashButton20pound.setText("£2Ø");
-        fakeCashButton20pound.addActionListener(cashReceiver);
-        fakeCashPanel.add(fakeCashButton20pound);
-
-        walletPanel.add(fakeCashPanel);
-
-        javax.swing.GroupLayout walletDialogLayout = new javax.swing.GroupLayout(walletDialog.getContentPane());
-        walletDialog.getContentPane().setLayout(walletDialogLayout);
-        walletDialogLayout.setHorizontalGroup(
-            walletDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(walletPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        walletDialogLayout.setVerticalGroup(
-            walletDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(walletPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
-        );
-
-        legitimateCardPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("Legitimate Cards"), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        legitimateCardPanel.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
-
-        loyaltyCard1Button.setText("Loyalty Card - 16489456");
-        loyaltyCard1Button.setActionCommand("card1");
-        loyaltyCard1Button.addActionListener(cardScanner);
-        legitimateCardPanel.add(loyaltyCard1Button);
-
-        loyaltyCard2Button.setText("Loyalty Card - 16485632");
-        loyaltyCard2Button.setActionCommand("card2");
-        loyaltyCard2Button.addActionListener(cardScanner);
-        legitimateCardPanel.add(loyaltyCard2Button);
-
-        walletPanel.add(filler8);
-        walletPanel.add(legitimateCardPanel);
-        walletPanel.add(filler9);
-
-        unrecognisedCardPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder("Unrecognised Cards"), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        unrecognisedCardPanel.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
-
-        unrecognisedCard1Button.setText("Loyalty Card - 17452957");
-        unrecognisedCard1Button.setActionCommand("card3");
-        unrecognisedCard1Button.addActionListener(cardScanner);
-        unrecognisedCardPanel.add(unrecognisedCard1Button);
-
-        unrecognisedCard2Button.setText("Loyalty Card - 15930563");
-        unrecognisedCard2Button.setActionCommand("card4");
-        unrecognisedCard2Button.addActionListener(cardScanner);
-        unrecognisedCardPanel.add(unrecognisedCard2Button);
-
-        walletPanel.add(unrecognisedCardPanel);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Edge Hill Vender");
 
         jLabel1.setFont(new java.awt.Font("Kefa", 0, 48)); // NOI18N
         jLabel1.setText("Edge Hill Café");
-        jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 0, 10));
+        jLabel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         jPanel1.add(jLabel1);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
+        getContentPane().add(jPanel1, BorderLayout.NORTH);
 
-        contentPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        contentPanel.setLayout(new java.awt.BorderLayout());
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        contentPanel.setLayout(new BorderLayout());
 
-        outputPanel.setLayout(new java.awt.BorderLayout());
+        outputPanel.setLayout(new BorderLayout());
 
         output.setFont(new java.awt.Font("Silom", 0, 36)); // NOI18N
-        output.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        output.setText(placeholder);
-        output.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 20, 10), javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 0, 204), new java.awt.Color(102, 0, 102))));
-        outputPanel.add(output, java.awt.BorderLayout.CENTER);
+        output.setHorizontalAlignment(SwingConstants.CENTER);
+        output.setText(PLACEHOLDER);
+        output.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10), BorderFactory.createEtchedBorder(new java.awt.Color(204, 0, 204), new java.awt.Color(102, 0, 102))));
+        outputPanel.add(output, BorderLayout.CENTER);
 
-        contentPanel.add(outputPanel, java.awt.BorderLayout.NORTH);
+        contentPanel.add(outputPanel, BorderLayout.NORTH);
 
-        selectionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select a product"));
+        selectionPanel.setBorder(BorderFactory.createTitledBorder("Select a product"));
         selectionPanel.setLayout(new java.awt.GridLayout(2, 3, 10, 10));
 
-        cokePanel.setLayout(new java.awt.BorderLayout());
+        cokePanel.setLayout(new BorderLayout());
 
         productSelector.add(cokeButton);
         cokeButton.setIcon(new ImageIcon("assets/coke.png"));
         cokeButton.setEnabled(false);
-        cokePanel.add(cokeButton, java.awt.BorderLayout.CENTER);
+        cokePanel.add(cokeButton, BorderLayout.CENTER);
 
-        cokeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        cokeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         cokeLabel.setText("Coke -");
-        cokeLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cokeLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         cokeLabelPanel.add(cokeLabel);
 
         cokeLabelPanel.add(cokePrice);
 
-        cokePanel.add(cokeLabelPanel, java.awt.BorderLayout.SOUTH);
+        cokePanel.add(cokeLabelPanel, BorderLayout.SOUTH);
 
         selectionPanel.add(cokePanel);
 
-        lemonadePanel.setLayout(new java.awt.BorderLayout());
+        lemonadePanel.setLayout(new BorderLayout());
 
         productSelector.add(lemonadeButton);
         lemonadeButton.setIcon(new ImageIcon("assets/lemonade.png"));
         lemonadeButton.setEnabled(false);
-        lemonadePanel.add(lemonadeButton, java.awt.BorderLayout.CENTER);
+        lemonadePanel.add(lemonadeButton, BorderLayout.CENTER);
 
-        lemonadeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lemonadeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         lemonadeLabel.setText("Lemonade -");
-        lemonadeLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lemonadeLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         lemonadeLabelPanel.add(lemonadeLabel);
 
         lemonadeLabelPanel.add(lemonadePrice);
 
-        lemonadePanel.add(lemonadeLabelPanel, java.awt.BorderLayout.SOUTH);
+        lemonadePanel.add(lemonadeLabelPanel, BorderLayout.SOUTH);
 
         selectionPanel.add(lemonadePanel);
 
-        tangoPanel.setLayout(new java.awt.BorderLayout());
+        tangoPanel.setLayout(new BorderLayout());
 
         productSelector.add(tangoButton);
         tangoButton.setIcon(new ImageIcon("assets/tango.png"));
         tangoButton.setEnabled(false);
-        tangoPanel.add(tangoButton, java.awt.BorderLayout.CENTER);
+        tangoPanel.add(tangoButton, BorderLayout.CENTER);
 
-        tangoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tangoLabel.setHorizontalAlignment(SwingConstants.CENTER);
         tangoLabel.setText("Tango -");
-        tangoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tangoLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         tangoLabelPanel.add(tangoLabel);
 
         tangoLabelPanel.add(tangoPrice);
 
-        tangoPanel.add(tangoLabelPanel, java.awt.BorderLayout.SOUTH);
+        tangoPanel.add(tangoLabelPanel, BorderLayout.SOUTH);
 
         selectionPanel.add(tangoPanel);
 
-        waterPanel.setLayout(new java.awt.BorderLayout());
+        waterPanel.setLayout(new BorderLayout());
 
         productSelector.add(waterButton);
         waterButton.setIcon(new ImageIcon("assets/water.png"));
         waterButton.setEnabled(false);
-        waterPanel.add(waterButton, java.awt.BorderLayout.CENTER);
+        waterPanel.add(waterButton, BorderLayout.CENTER);
 
-        waterLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        waterLabel.setHorizontalAlignment(SwingConstants.CENTER);
         waterLabel.setText("Water -");
-        waterLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        waterLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         waterLabelPanel.add(waterLabel);
 
         waterLabelPanel.add(waterPrice);
 
-        waterPanel.add(waterLabelPanel, java.awt.BorderLayout.SOUTH);
+        waterPanel.add(waterLabelPanel, BorderLayout.SOUTH);
 
         selectionPanel.add(waterPanel);
 
-        pepsiPanel.setLayout(new java.awt.BorderLayout());
+        pepsiPanel.setLayout(new BorderLayout());
 
         productSelector.add(pepsiButton);
         pepsiButton.setIcon(new ImageIcon("assets/pepsi.png"));
         pepsiButton.setEnabled(false);
-        pepsiPanel.add(pepsiButton, java.awt.BorderLayout.CENTER);
+        pepsiPanel.add(pepsiButton, BorderLayout.CENTER);
 
-        pepsiLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pepsiLabel.setHorizontalAlignment(SwingConstants.CENTER);
         pepsiLabel.setText("Pepsi -");
-        pepsiLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pepsiLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         pepsiLabelPanel.add(pepsiLabel);
 
         pepsiLabelPanel.add(pepsiPrice);
 
-        pepsiPanel.add(pepsiLabelPanel, java.awt.BorderLayout.SOUTH);
+        pepsiPanel.add(pepsiLabelPanel, BorderLayout.SOUTH);
 
         selectionPanel.add(pepsiPanel);
 
-        spritePanel.setLayout(new java.awt.BorderLayout());
+        spritePanel.setLayout(new BorderLayout());
 
         productSelector.add(spriteButton);
         spriteButton.setIcon(new ImageIcon("assets/sprite.png"));
         spriteButton.setEnabled(false);
-        spritePanel.add(spriteButton, java.awt.BorderLayout.CENTER);
+        spritePanel.add(spriteButton, BorderLayout.CENTER);
 
-        spriteLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        spriteLabel.setHorizontalAlignment(SwingConstants.CENTER);
         spriteLabel.setText("Sprite -");
-        spriteLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        spriteLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         spriteLabelPanel.add(spriteLabel);
 
         spriteLabelPanel.add(spritePrice);
 
-        spritePanel.add(spriteLabelPanel, java.awt.BorderLayout.SOUTH);
+        spritePanel.add(spriteLabelPanel, BorderLayout.SOUTH);
 
         selectionPanel.add(spritePanel);
 
-        contentPanel.add(selectionPanel, java.awt.BorderLayout.CENTER);
+        contentPanel.add(selectionPanel, BorderLayout.CENTER);
         selectionPanel.getAccessibleContext().setAccessibleDescription("");
 
         purchaseButton.setText("Purchase");
@@ -460,9 +260,9 @@ public class VendingMachineGUI extends javax.swing.JFrame {
         cancelButton.addActionListener(controller);
         jPanel3.add(cancelButton);
 
-        contentPanel.add(jPanel3, java.awt.BorderLayout.PAGE_END);
+        contentPanel.add(jPanel3, BorderLayout.PAGE_END);
 
-        getContentPane().add(contentPanel, java.awt.BorderLayout.CENTER);
+        getContentPane().add(contentPanel, BorderLayout.CENTER);
 
         pack();
         
@@ -493,18 +293,14 @@ public class VendingMachineGUI extends javax.swing.JFrame {
     	productSelector.clearSelection();
     }
     
-    public javax.swing.JLabel getOutput() {
+    public JLabel getOutput() {
     	return output;
     }
     
     public Product getSelectedProduct() {
     	return buttonProduct.get(productSelector.getSelection());
     }
-    
-    public String getPlaceholder() {
-		return placeholder;
-	}
-    
+
     public void setSelectorEnabled(boolean enabled) {
     	Enumeration<AbstractButton> e = productSelector.getElements();
     	while(e.hasMoreElements()) {
@@ -513,87 +309,46 @@ public class VendingMachineGUI extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cancelButton;
-    private javax.swing.JButton cashButton10p;
-    private javax.swing.JButton fakeCashButton10p;
-    private javax.swing.JButton cashButton10pound;
-    private javax.swing.JButton cashButton10yen;
-    private javax.swing.JButton cashButton1p;
-    private javax.swing.JButton fakeCashButton1p;
-    private javax.swing.JButton cashButton1pound;
-    private javax.swing.JButton cashButton1dollar;
-    private javax.swing.JButton cashButton20p;
-    private javax.swing.JButton fakeCashButton20p;
-    private javax.swing.JButton cashButton20pound;
-    private javax.swing.JButton fakeCashButton20pound;
-    private javax.swing.JButton cashButton2p;
-    private javax.swing.JButton fakeCashButton2p;
-    private javax.swing.JButton cashButton2pound;
-    private javax.swing.JButton cashButton2euro;
-    private javax.swing.JButton cashButton50p;
-    private javax.swing.JButton fakeCashButton50p;
-    private javax.swing.JButton cashButton5p;
-    private javax.swing.JButton fakeCashButton5p;
-    private javax.swing.JButton cashButton5pound;
-    private javax.swing.JButton cashButton5dollar;
-    private javax.swing.JPanel cashPanel;
-    private javax.swing.JButton clearButton;
-    private javax.swing.JToggleButton cokeButton;
-    private javax.swing.JLabel cokeLabel;
-    private javax.swing.JPanel cokeLabelPanel;
-    private javax.swing.JPanel cokePanel;
-    private javax.swing.JLabel cokePrice;
-    private javax.swing.JPanel contentPanel;
-    private javax.swing.JPanel fakeCashPanel;
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler2;
-    private javax.swing.Box.Filler filler3;
-    private javax.swing.Box.Filler filler4;
-    private javax.swing.Box.Filler filler5;
-    private javax.swing.Box.Filler filler6;
-    private javax.swing.Box.Filler filler7;
-    private javax.swing.Box.Filler filler8;
-    private javax.swing.Box.Filler filler9;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel legitimateCardPanel;
-    private javax.swing.JToggleButton lemonadeButton;
-    private javax.swing.JLabel lemonadeLabel;
-    private javax.swing.JPanel lemonadeLabelPanel;
-    private javax.swing.JPanel lemonadePanel;
-    private javax.swing.JLabel lemonadePrice;
-    private javax.swing.JButton loyaltyCard1Button;
-    private javax.swing.JButton loyaltyCard2Button;
-    private javax.swing.JLabel output;
-    private javax.swing.JPanel outputPanel;
-    private javax.swing.JToggleButton pepsiButton;
-    private javax.swing.JLabel pepsiLabel;
-    private javax.swing.JPanel pepsiLabelPanel;
-    private javax.swing.JPanel pepsiPanel;
-    private javax.swing.JLabel pepsiPrice;
-    private javax.swing.ButtonGroup productSelector;
-    private javax.swing.JButton purchaseButton;
-    private javax.swing.JPanel selectionPanel;
-    private javax.swing.JToggleButton spriteButton;
-    private javax.swing.JLabel spriteLabel;
-    private javax.swing.JPanel spriteLabelPanel;
-    private javax.swing.JPanel spritePanel;
-    private javax.swing.JLabel spritePrice;
-    private javax.swing.JToggleButton tangoButton;
-    private javax.swing.JLabel tangoLabel;
-    private javax.swing.JPanel tangoLabelPanel;
-    private javax.swing.JPanel tangoPanel;
-    private javax.swing.JLabel tangoPrice;
-    private javax.swing.JButton unrecognisedCard1Button;
-    private javax.swing.JButton unrecognisedCard2Button;
-    private javax.swing.JPanel unrecognisedCardPanel;
-    private javax.swing.JDialog walletDialog;
-    private javax.swing.JPanel walletPanel;
-    private javax.swing.JToggleButton waterButton;
-    private javax.swing.JLabel waterLabel;
-    private javax.swing.JPanel waterLabelPanel;
-    private javax.swing.JPanel waterPanel;
-    private javax.swing.JLabel waterPrice;
+    private JButton cancelButton;
+    private JButton clearButton;
+    private JToggleButton cokeButton;
+    private JLabel cokeLabel;
+    private JPanel cokeLabelPanel;
+    private JPanel cokePanel;
+    private JLabel cokePrice;
+    private JPanel contentPanel;
+    private JLabel jLabel1;
+    private JPanel jPanel1;
+    private JPanel jPanel3;
+    private JToggleButton lemonadeButton;
+    private JLabel lemonadeLabel;
+    private JPanel lemonadeLabelPanel;
+    private JPanel lemonadePanel;
+    private JLabel lemonadePrice;
+    private JLabel output;
+    private JPanel outputPanel;
+    private JToggleButton pepsiButton;
+    private JLabel pepsiLabel;
+    private JPanel pepsiLabelPanel;
+    private JPanel pepsiPanel;
+    private JLabel pepsiPrice;
+    private ButtonGroup productSelector;
+    private JButton purchaseButton;
+    private JPanel selectionPanel;
+    private JToggleButton spriteButton;
+    private JLabel spriteLabel;
+    private JPanel spriteLabelPanel;
+    private JPanel spritePanel;
+    private JLabel spritePrice;
+    private JToggleButton tangoButton;
+    private JLabel tangoLabel;
+    private JPanel tangoLabelPanel;
+    private JPanel tangoPanel;
+    private JLabel tangoPrice;
+    private JToggleButton waterButton;
+    private JLabel waterLabel;
+    private JPanel waterLabelPanel;
+    private JPanel waterPanel;
+    private JLabel waterPrice;
     // End of variables declaration//GEN-END:variables
 }
