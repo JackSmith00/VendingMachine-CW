@@ -205,7 +205,7 @@ public class VendingMachineController implements ActionListener {
 				output.setText("Insufficient funds");
 			}
 		}
-		if(cashReceiver.isEmpty() && !cardCustomer) {
+		if(cashReceiver.getCredit().compareTo(BigDecimal.valueOf(0)) <= 0 && !cardCustomer) {
 			gui.setSelectorEnabled(false);
 			timer.schedule(new TimerTask() {
 				@Override
@@ -259,7 +259,7 @@ public class VendingMachineController implements ActionListener {
 			output.setText("Signed out");
 		}
 		
-		if(!cashReceiver.isEmpty()) {
+		if(cashReceiver.getCredit().compareTo(BigDecimal.valueOf(0)) > 0) {
 			double ejected = cashReceiver.eject();
 			cashReturned = true;
 			timer.schedule(new TimerTask() {

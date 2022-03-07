@@ -49,10 +49,6 @@ public class DemoCashReceiver implements CashReceiver, ActionListener {
 		}
 	}
 	
-	public boolean isEmpty() {
-		return credit.compareTo(BigDecimal.valueOf(0)) <= 0;
-	}
-	
 	public double eject() {
 		double ejected = credit.doubleValue();
 		credit = BigDecimal.valueOf(0);
@@ -135,7 +131,7 @@ public class DemoCashReceiver implements CashReceiver, ActionListener {
 			break;			
 		}
 		
-		if(!isEmpty()) {
+		if(credit.compareTo(BigDecimal.valueOf(0)) > 0) {
 			controller.creditUpdated();
 		}
 	}

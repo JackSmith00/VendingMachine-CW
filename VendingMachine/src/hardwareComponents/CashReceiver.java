@@ -8,7 +8,5 @@ public interface CashReceiver {
 	
 	public BigDecimal getCredit();
 	
-	public boolean isEmpty();
-	
 	public double eject();
 }
