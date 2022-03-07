@@ -39,8 +39,10 @@ public class CashReceiver implements ActionListener {
 		return true; // cash accepted
 	}
 	
-	public void ejectAll() {
+	public double ejectAll() {
+		double ejected = credit.doubleValue();
 		credit = BigDecimal.valueOf(0);
+		return ejected;
 	}
 	
 	public BigDecimal getCredit() {

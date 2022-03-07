@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.EnumMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JLabel;
 
@@ -16,6 +18,7 @@ import hardwareComponents.StockScanner;
 public class VendingMachineController implements ActionListener {
 
 	private EnumMap<Product, BigDecimal> prices = new EnumMap<Product, BigDecimal>(Product.class);
+	private Timer timer;
 	
 	private StockScanner cokeScanner, lemonadeScanner, tangoScanner, waterScanner, pepsiScanner, spriteScanner;
 	private ProductDispenser dispenser;
@@ -46,6 +49,7 @@ public class VendingMachineController implements ActionListener {
 		dispenser = new ProductDispenser(cokeScanner, lemonadeScanner, tangoScanner, waterScanner, pepsiScanner, spriteScanner);
 		cashReceiver = new CashReceiver(this);
 		cardScanner = new CardScanner(this);
+		timer = new Timer();
 		setPrices(1.5, 1.2, 1.4, 1, 1.3, 1.2);
 	}
 	
@@ -85,6 +89,20 @@ public class VendingMachineController implements ActionListener {
 		}
 	}
 	
+	public void applyPercentageDiscount(double discountBy) {
+		for(Product p: prices.keySet()) {
+			prices.replace(p, prices.get(p).multiply(BigDecimal.valueOf(1 - discountBy)));
+		}
+		gui.updatePrices();
+	}
+	
+	public void applyAmountDiscount(double discountBy) {
+		for(Product p: prices.keySet()) {
+			prices.replace(p, prices.get(p).subtract(BigDecimal.valueOf(discountBy)));
+		}
+		gui.updatePrices();		
+	}
+	
 	public double getPrice(Product product) {
 		return prices.get(product).doubleValue();
 	}
@@ -100,6 +118,7 @@ public class VendingMachineController implements ActionListener {
 		if(valid) { // when a legitimate card is scanned
 			cardCustomer = true;
 			output.setText("Account linked");
+			applyAmountDiscount(0.25); // discount by 25p
 			gui.setSelectorEnabled(true);
 		} else { // when card is not legitimate
 			String originalText = output.getText();
@@ -108,7 +127,7 @@ public class VendingMachineController implements ActionListener {
 			 * TODO
 			 * https://www.youtube.com/watch?v=hhnkP2bR5EI
 			 */
-			new java.util.Timer().schedule(new java.util.TimerTask() {
+			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {
 					if(output.getText().compareTo("Card not recognised") == 0) {						
@@ -118,10 +137,68 @@ public class VendingMachineController implements ActionListener {
 			}, 1600);
 		}
 	}
+	
+	//TODO
+	private void purchase(Product product) {
+		
+	}
+	
+	//TODO
+	private void clear() {
+		gui.clearSelection();
+	}
+	
+	//TODO
+	private void cancel() {
+		clear();
+		gui.setSelectorEnabled(false);
+		
+		boolean cashReturned = false;
+		
+		if(cardCustomer) {
+			cardScanner.reset();
+			output.setText("Signed out");
+		}
+		
+		if(cashReceiver.getCredit().compareTo(BigDecimal.valueOf(0)) > 0) {
+			double ejected = cashReceiver.ejectAll();
+			cashReturned = true;
+			timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					output.setText("Ejected: " + gui.formatCurrency(ejected));
+				}
+			}, cardCustomer ? 1500 : 0);
+			
+		}
+		
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				if(output.getText().startsWith("Ejected: ") || output.getText().compareTo("Signed out") == 0) {
+					output.setText(gui.getPlaceholder());
+				}
+			}
+		}, cardCustomer && cashReturned ? 3000 : 1600);
+		
+		cardCustomer = false;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		
+		switch(e.getActionCommand()) {
+		case "Purchase":
+			purchase(gui.getSelectedProduct());
+			break;
+		case "Clear":
+			clear();
+			break;
+		case "Cancel":
+			cancel();
+			break;
+		}
 		
 	}
 }

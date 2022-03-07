@@ -6,8 +6,10 @@ package gui;
 
 import java.text.NumberFormat;
 import java.util.Enumeration;
+import java.util.HashMap;
 
 import javax.swing.AbstractButton;
+import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 
 import hardwareComponents.CardScanner;
@@ -24,6 +26,9 @@ public class VendingMachineGUI extends javax.swing.JFrame {
 	private VendingMachineController controller;
 	private CashReceiver cashReceiver;
 	private CardScanner cardScanner;
+	
+	private HashMap<ButtonModel, Product> buttonProduct;
+	private final String placeholder = "Insert Credit...";
 	
 	/*
 	 * The code below was researched at the following resource:
@@ -143,6 +148,7 @@ public class VendingMachineGUI extends javax.swing.JFrame {
         purchaseButton = new javax.swing.JButton();
         clearButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        buttonProduct = new HashMap<ButtonModel, Product>();
 
         walletDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         walletDialog.setTitle("Wallet");
@@ -322,7 +328,7 @@ public class VendingMachineGUI extends javax.swing.JFrame {
 
         output.setFont(new java.awt.Font("Silom", 0, 36)); // NOI18N
         output.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        output.setText("Insert Credit...");
+        output.setText(placeholder);
         output.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 20, 10), javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 0, 204), new java.awt.Color(102, 0, 102))));
         outputPanel.add(output, java.awt.BorderLayout.CENTER);
 
@@ -459,6 +465,13 @@ public class VendingMachineGUI extends javax.swing.JFrame {
         getContentPane().add(contentPanel, java.awt.BorderLayout.CENTER);
 
         pack();
+        
+        buttonProduct.put(cokeButton.getModel(), Product.COKE);
+        buttonProduct.put(lemonadeButton.getModel(), Product.LEMONADE);
+        buttonProduct.put(tangoButton.getModel(), Product.TANGO);
+        buttonProduct.put(waterButton.getModel(), Product.WATER);
+        buttonProduct.put(pepsiButton.getModel(), Product.PEPSI);
+        buttonProduct.put(spriteButton.getModel(), Product.SPRITE);
     }// </editor-fold>//GEN-END:initComponents
     
     public void updatePrices() {
@@ -472,13 +485,25 @@ public class VendingMachineGUI extends javax.swing.JFrame {
     
     }
     
+    public String formatCurrency(double amount) {
+    	return moneyFormatter.format(amount);
+    }
+    
+    public void clearSelection() {
+    	productSelector.clearSelection();
+    }
+    
     public javax.swing.JLabel getOutput() {
     	return output;
     }
     
-    public String formatCurrency(double amount) {
-    	return moneyFormatter.format(amount);
+    public Product getSelectedProduct() {
+    	return buttonProduct.get(productSelector.getSelection());
     }
+    
+    public String getPlaceholder() {
+		return placeholder;
+	}
     
     public void setSelectorEnabled(boolean enabled) {
     	Enumeration<AbstractButton> e = productSelector.getElements();
