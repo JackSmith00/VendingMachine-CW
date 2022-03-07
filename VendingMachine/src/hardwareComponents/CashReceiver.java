@@ -28,6 +28,7 @@ public class CashReceiver implements ActionListener {
 	public boolean insert(Cash cash) {
 		// do not accept fake or foreign cash
 		if(cash.isFake() || cash.getCurrency() != acceptedCurrency) {
+			// show that currency is being rejected for testing
 			System.out.println(cash.getCurrency().getSymbol() + cash.getValue().doubleValue() + " rejected");
 			return false; // cash rejected
 		}

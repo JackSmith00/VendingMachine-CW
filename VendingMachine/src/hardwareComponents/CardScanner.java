@@ -1,7 +1,11 @@
 package hardwareComponents;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import externalElements.Bank;
 import paymentMethods.LoyaltyCard;
+import vendingMachine.VendingMachineController;
 
 /**
  * A class to mimic the functionality of a card
@@ -11,10 +15,15 @@ import paymentMethods.LoyaltyCard;
  * @author Jack
  *
  */
-public class CardScanner {
+public class CardScanner implements ActionListener {
 
 	private LoyaltyCard scannedCard; // holds the currently scanned valid card
 	private boolean listening = true; // whether the card scanner is listening for new scans, prevents double scanning
+	private VendingMachineController controller;
+	
+	public CardScanner(VendingMachineController controller) {
+		this.controller = controller;
+	}
 	
 	/**
 	 * Called whenever a card is presented for
@@ -25,12 +34,7 @@ public class CardScanner {
 	 * true when successful with a valid card, false when scan
 	 * fails with an invalid card
 	 */
-	public boolean scan(LoyaltyCard card) {
-		
-		if(!listening) {
-			// only scan card when listening
-			return false;
-		}
+	private boolean scan(LoyaltyCard card) {
 		
 		if(Bank.validateCard(card)) {
 			// successful validation
@@ -58,6 +62,25 @@ public class CardScanner {
 	 */
 	public LoyaltyCard getScannedCard() {
 		return scannedCard;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		int linkedAccount = 0;
+		
+		switch(e.getActionCommand()) {
+		case "card1":
+			linkedAccount = 123456789;
+			break;
+		case "card2":
+			linkedAccount = 987654321;
+			break;
+		}
+		
+		if(listening) {	// only scan the card when listening for scans
+			controller.cardScanned(scan(new LoyaltyCard(linkedAccount)));
+		}
+		
 	}
 	
 }

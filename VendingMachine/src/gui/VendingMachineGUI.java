@@ -277,9 +277,13 @@ public class VendingMachineGUI extends javax.swing.JFrame {
         legitimateCardPanel.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
 
         loyaltyCard1Button.setText("Loyalty Card - 16489456");
+        loyaltyCard1Button.setActionCommand("card1");
+        loyaltyCard1Button.addActionListener(cardScanner);
         legitimateCardPanel.add(loyaltyCard1Button);
 
         loyaltyCard2Button.setText("Loyalty Card - 16485632");
+        loyaltyCard2Button.setActionCommand("card2");
+        loyaltyCard2Button.addActionListener(cardScanner);
         legitimateCardPanel.add(loyaltyCard2Button);
 
         walletPanel.add(filler8);
@@ -290,9 +294,13 @@ public class VendingMachineGUI extends javax.swing.JFrame {
         unrecognisedCardPanel.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
 
         unrecognisedCard1Button.setText("Loyalty Card - 17452957");
+        unrecognisedCard1Button.setActionCommand("card3");
+        unrecognisedCard1Button.addActionListener(cardScanner);
         unrecognisedCardPanel.add(unrecognisedCard1Button);
 
         unrecognisedCard2Button.setText("Loyalty Card - 15930563");
+        unrecognisedCard2Button.setActionCommand("card4");
+        unrecognisedCard2Button.addActionListener(cardScanner);
         unrecognisedCardPanel.add(unrecognisedCard2Button);
 
         walletPanel.add(unrecognisedCardPanel);

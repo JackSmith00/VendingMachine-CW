@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.EnumMap;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import gui.VendingMachineGUI;
@@ -17,6 +16,7 @@ import hardwareComponents.StockScanner;
 public class VendingMachineController implements ActionListener {
 
 	private EnumMap<Product, BigDecimal> prices = new EnumMap<Product, BigDecimal>(Product.class);
+	
 	private StockScanner cokeScanner, lemonadeScanner, tangoScanner, waterScanner, pepsiScanner, spriteScanner;
 	private ProductDispenser dispenser;
 	private CashReceiver cashReceiver;
@@ -24,6 +24,8 @@ public class VendingMachineController implements ActionListener {
 	
 	private VendingMachineGUI gui;
 	private JLabel output;
+	
+	private boolean cardCustomer = false;
 	
 	public static void main(String[] args) {
 		
@@ -43,7 +45,7 @@ public class VendingMachineController implements ActionListener {
 		initialiseScanners();
 		dispenser = new ProductDispenser(cokeScanner, lemonadeScanner, tangoScanner, waterScanner, pepsiScanner, spriteScanner);
 		cashReceiver = new CashReceiver(this);
-		cardScanner = new CardScanner();
+		cardScanner = new CardScanner(this);
 		setPrices(1.5, 1.2, 1.4, 1, 1.3, 1.2);
 	}
 	
@@ -88,8 +90,33 @@ public class VendingMachineController implements ActionListener {
 	}
 	
 	public void creditUpdated() {
-		output.setText("Credit: " + gui.formatCurrency(cashReceiver.getCredit().doubleValue()));
-		gui.setSelectorEnabled(true);
+		if(!cardCustomer) {
+			output.setText("Credit: " + gui.formatCurrency(cashReceiver.getCredit().doubleValue()));
+			gui.setSelectorEnabled(true);
+		}
+	}
+	
+	public void cardScanned(boolean valid) {
+		if(valid) { // when a legitimate card is scanned
+			cardCustomer = true;
+			output.setText("Account linked");
+			gui.setSelectorEnabled(true);
+		} else { // when card is not legitimate
+			String originalText = output.getText();
+			output.setText("Card not recognised");
+			/*
+			 * TODO
+			 * https://www.youtube.com/watch?v=hhnkP2bR5EI
+			 */
+			new java.util.Timer().schedule(new java.util.TimerTask() {
+				@Override
+				public void run() {
+					if(output.getText().compareTo("Card not recognised") == 0) {						
+						output.setText(originalText);
+					}
+				}
+			}, 1600);
+		}
 	}
 
 	@Override
