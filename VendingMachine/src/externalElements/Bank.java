@@ -1,46 +1,42 @@
 package externalElements;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 
 import paymentMethods.LoyaltyCard;
 
 /**
- * A class for demonstration purposes to
- * mimic a bank that controls the loyalty
- * card accounts and balances
+ * Functionality expected from a linked bank
  * 
  * @author Jack
  *
  */
-public final class Bank {
-	
-	@SuppressWarnings("serial")
-	private static final HashMap<Integer, BigDecimal> registeredAccounts = new HashMap<Integer, BigDecimal>(){{
-		put(123456789, BigDecimal.valueOf(10));
-		put(987654321, BigDecimal.valueOf(1));
-		/*
-		 * https://www.baeldung.com/java-initialize-hashmap
-		 */
-	}};
-	
-	
-	public static boolean validateCard(LoyaltyCard card) {
-		return registeredAccounts.containsKey(card.getCardNumber());
-	}
-	
-	public static BigDecimal getAccountBalance(int accountNumber) {
-		return registeredAccounts.get(accountNumber);
-	}
-	
-	public static boolean chargeAccount(int accountNumber, BigDecimal amount) {
-		
-		if(registeredAccounts.get(accountNumber).compareTo(amount) >= 0) { // where there is enough balance
-			registeredAccounts.get(accountNumber).subtract(amount);
-			return true;
-		}
-		
-		return false; // where there is not enough balance
-	}
+public interface Bank {
 
+	/**
+	 * Validates if a scanned card is linked to
+	 * a registered account
+	 * 
+	 * @param card the card to check for a linked account
+	 * @return true when an account is found and any security
+	 * checks are passed, false otherwise
+	 */
+	public boolean validateCard(LoyaltyCard card);
+	
+	/**
+	 * Checks the balance of a provided account
+	 * 
+	 * @param accountNumber the account to check the balance of
+	 * @return the balance held in the account
+	 */
+	public BigDecimal getAccountBalance(int accountNumber);
+	
+	/**
+	 * Attempts to charge the specified account by a given amount
+	 * 
+	 * @param accountNumber the account to debit
+	 * @param amount the amount to charge the account
+	 * @return a boolean indication of the outcome,
+	 * true if charged successfully, false otherwise
+	 */
+	public boolean chargeAccount(int accountNumber, BigDecimal amount);
 }

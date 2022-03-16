@@ -1,7 +1,13 @@
 package hardwareComponents;
 
-import paymentMethods.LoyaltyCard;
-
+/**
+ * An interface of a card scanner that can
+ * read and store a loyalty card and debit the
+ * associated bank account
+ * 
+ * @author Jack
+ *
+ */
 public interface CardScanner {
 
 	/**
@@ -11,7 +17,9 @@ public interface CardScanner {
 	public void reset();
 	
 	/**
-	 * @return the currently scanned, valid card
+	 * Allows the controller to prevent
+	 * the card scanner from listening
+	 * for new scans
 	 */
-	public LoyaltyCard getScannedCard();
+	public void disable();
 }

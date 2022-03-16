@@ -18,50 +18,51 @@ import vendingMachine.VendingMachineController;
  */
 public class DemoCashReceiver implements CashReceiver, ActionListener {
 	
-	private final Currency acceptedCurrency = Currency.getInstance("GBP");
-	private BigDecimal credit = BigDecimal.valueOf(0);
-	private VendingMachineController controller;
+	private final Currency acceptedCurrency = Currency.getInstance("GBP"); // only accept specified currency
+	private VendingMachineController controller; // a pointer to the controller to inform of any changes to credit
 	
+	/**
+	 * Constructor for a DemoCashReceiver
+	 * 
+	 * @param controller the controller class of the system
+	 */
 	public DemoCashReceiver(VendingMachineController controller) {
 		this.controller = controller;
 	}
 	
+	/**
+	 * Called to mimic the insertion of
+	 * cash into the cash receiver
+	 * @param cash the cash that is inserted
+	 */
 	public void insert(Cash cash) {
 		// do not accept fake or foreign cash
 		if(cash.isFake() || cash.getCurrency() != acceptedCurrency) {
-			// show that currency is being rejected for testing
+			/*
+			 * for demonstration purposes.
+			 * prints the cash to the console that would be
+			 * ejected immediately by the CashReceiver
+			 */
 			System.out.println(cash.getCurrency().getSymbol() + cash.getValue().doubleValue() + " rejected");
+			return;
 		}
 		
 		// increment credit by correct amount
-		credit = credit.add(cash.getValue());
+		controller.cashInserted(cash.getValue());
 	}
 	
 	@Override
-	public boolean charge(BigDecimal amount) {
-		if(credit.compareTo(amount) >= 0) {
-			// where there are sufficient funds
-			credit = credit.subtract(amount);
-			return true;
-		} else {
-			// where there are insufficient funds
-			return false;
-		}
-	}
-	
-	public double eject() {
-		double ejected = credit.doubleValue();
-		credit = BigDecimal.valueOf(0);
-		return ejected;
-	}
-	
-	@Override
-	public BigDecimal getCredit() {
-		return credit;
+	public void eject(BigDecimal amount) {
+		// demonstration purposes - would be a physical action undertaken
+		System.out.println(acceptedCurrency.getSymbol() + amount.floatValue() + " dispensed");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		/*
+		 * When a coin button is selected, mimic an
+		 * insertion of the corresponding Cash object
+		 */
 		switch(e.getActionCommand()) {
 		case "1p":
 			insert(new Cash(Currency.getInstance("GBP"), 0.01));
@@ -129,10 +130,6 @@ public class DemoCashReceiver implements CashReceiver, ActionListener {
 		case "£2Ø":
 			insert(new Cash(Currency.getInstance("GBP"), 20, true));
 			break;			
-		}
-		
-		if(credit.compareTo(BigDecimal.valueOf(0)) > 0) {
-			controller.creditUpdated();
 		}
 	}
 }

@@ -10,23 +10,49 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * A class representing a wallet for demonstration purposes.
+ * Allows money and cards to be inserted/scanned without a
+ * physical vending machine.
+ * 
+ * This GUI was produced using the NetBeans IDE GUI builder tool:
+ * 
+ * Apache, 2021. NetBeans IDE (12.6) [desktop app].
+ * Available from: https://netbeans.apache.org/download/nb125/nb125.html
+ * [Accessed 11 March 2022].
+ * 
+ * @author Jack
+ *
+ */
 public class VirtualWallet extends javax.swing.JFrame {
 	
-	private DemoCashReceiver cashReceiver;
-	private DemoCardScanner cardScanner;
+	// Logic Attributes
+	private DemoCashReceiver cashReceiver; // allows virtual cash to be inserted
+	private DemoCardScanner cardScanner; // allows virtual cards to be scanned
 	
+	/**
+	 * Constructor for a VirtualWallet
+	 * 
+	 * @param cashReceiver the DemoCashReceiver of the demonstration
+	 * @param cardScanner the DemoCardScanner of the demonstration
+	 */
 	public VirtualWallet(DemoCashReceiver cashReceiver, DemoCardScanner cardScanner) {
 		this.cashReceiver = cashReceiver;
 		this.cardScanner = cardScanner;
-		initComponents();
-		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+		initComponents(); // set up components
+		pack(); // resize according to content
+		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE); // prevent wallet being closed accidentally
         setTitle("Wallet");
-        setAutoRequestFocus(false);
+        setAutoRequestFocus(false); // not the main GUI so don't take focus first
         setCursor(new Cursor(Cursor.HAND_CURSOR));
-		setResizable(false);
+		setResizable(false); // prevent wallet being resized
 	}
 	
+	/**
+	 * Sets up all components of the JFrame
+	 */
 	private void initComponents() {
+		// initialise all the components
         walletPanel = new JPanel();
         cashPanel = new JPanel();
         cashButton1p = new JButton();
@@ -67,13 +93,28 @@ public class VirtualWallet extends javax.swing.JFrame {
         unrecognisedCardPanel = new JPanel();
         unrecognisedCard1Button = new JButton();
         unrecognisedCard2Button = new JButton();
-
+        
+        // set up panel that will hold all content with padding from the edge
         walletPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         walletPanel.setLayout(new javax.swing.BoxLayout(walletPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
+        // set up layout for panels
+        GroupLayout walletLayout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(walletLayout);
+        walletLayout.setHorizontalGroup(
+            walletLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(walletPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        );
+        walletLayout.setVerticalGroup(
+            walletLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(walletPanel, GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+        );
+        
+        // panel to segregate accepted cash in the frame
         cashPanel.setBorder(BorderFactory.createTitledBorder("Cash"));
         cashPanel.setLayout(new GridLayout(3, 0, 10, 10));
-
+        
+        // set up accepted cash buttons
         cashButton1p.setText("1p");
         cashButton1p.addActionListener(cashReceiver);
         cashPanel.add(cashButton1p);
@@ -123,12 +164,17 @@ public class VirtualWallet extends javax.swing.JFrame {
         cashButton20pound.addActionListener(cashReceiver);
         cashPanel.add(cashButton20pound);
 
+        // add accepted cash panel to the wallet panel
         walletPanel.add(cashPanel);
+        
+        // add spacing between panels
         walletPanel.add(filler7);
 
+        // panel to segregate rejected cash in the frame
         fakeCashPanel.setBorder(BorderFactory.createTitledBorder("Fake/Foreign Cash"));
         fakeCashPanel.setLayout(new GridLayout(3, 0, 10, 10));
-
+        
+        // set up rejected cash buttons
         fakeCashButton1p.setText("1pee");
         fakeCashButton1p.addActionListener(cashReceiver);
         fakeCashPanel.add(fakeCashButton1p);
@@ -177,23 +223,18 @@ public class VirtualWallet extends javax.swing.JFrame {
         fakeCashButton20pound.setText("£2Ø");
         fakeCashButton20pound.addActionListener(cashReceiver);
         fakeCashPanel.add(fakeCashButton20pound);
-
+        
+        // add rejected cash panel to the wallet panel
         walletPanel.add(fakeCashPanel);
 
-        GroupLayout walletDialogLayout = new GroupLayout(getContentPane());
-        getContentPane().setLayout(walletDialogLayout);
-        walletDialogLayout.setHorizontalGroup(
-            walletDialogLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(walletPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        );
-        walletDialogLayout.setVerticalGroup(
-            walletDialogLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(walletPanel, GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
-        );
-
+        // add spacing between panels
+        walletPanel.add(filler8);
+        
+        // panel to segregate accepted cards in the frame
         legitimateCardPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Legitimate Cards"), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
         legitimateCardPanel.setLayout(new GridLayout(1, 0, 20, 0));
 
+        // set up accepted card buttons
         loyaltyCard1Button.setText("Loyalty Card - 16489456");
         loyaltyCard1Button.setActionCommand("card1");
         loyaltyCard1Button.addActionListener(cardScanner);
@@ -203,14 +244,18 @@ public class VirtualWallet extends javax.swing.JFrame {
         loyaltyCard2Button.setActionCommand("card2");
         loyaltyCard2Button.addActionListener(cardScanner);
         legitimateCardPanel.add(loyaltyCard2Button);
-
-        walletPanel.add(filler8);
+        
+        // add accepted card panel to the wallet panel
         walletPanel.add(legitimateCardPanel);
+        
+        // add spacing between panels
         walletPanel.add(filler9);
 
+        // set up rejected card buttons
         unrecognisedCardPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Unrecognised Cards"), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
         unrecognisedCardPanel.setLayout(new GridLayout(1, 0, 20, 0));
-
+        
+        // set up rejected card buttons
         unrecognisedCard1Button.setText("Loyalty Card - 17452957");
         unrecognisedCard1Button.setActionCommand("card3");
         unrecognisedCard1Button.addActionListener(cardScanner);
@@ -221,9 +266,11 @@ public class VirtualWallet extends javax.swing.JFrame {
         unrecognisedCard2Button.addActionListener(cardScanner);
         unrecognisedCardPanel.add(unrecognisedCard2Button);
 
+        // add rejected card panel to the wallet panel
         walletPanel.add(unrecognisedCardPanel);
 	}
 	
+	// Component Attributes
 	private JButton cashButton10p;
     private JButton fakeCashButton10p;
     private JButton cashButton10pound;

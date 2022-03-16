@@ -1,7 +1,15 @@
 package vendingMachine;
 
+/**
+ * Represents all products that are sold
+ * by the vending machine
+ * 
+ * @author Jack
+ *
+ */
 public enum Product {
 
+	// Products
 	COKE,
 	LEMONADE,
 	TANGO,

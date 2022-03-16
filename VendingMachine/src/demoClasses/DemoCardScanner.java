@@ -3,68 +3,61 @@ package demoClasses;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import externalElements.Bank;
 import hardwareComponents.CardScanner;
 import paymentMethods.LoyaltyCard;
 import vendingMachine.VendingMachineController;
 
 /**
- * A class to mimic the functionality of a card
- * scanner that will validate cards with an
- * external bank
+ * A class to mimic the functionality of a card scanner
  * 
  * @author Jack
  *
  */
 public class DemoCardScanner implements CardScanner, ActionListener {
 
-	private LoyaltyCard scannedCard; // holds the currently scanned valid card
 	private boolean listening = true; // whether the card scanner is listening for new scans, prevents double scanning
-	private VendingMachineController controller;
+	private VendingMachineController controller; // a pointer to the controller to inform of any scans
 	
+	/**
+	 * Constructor for a DemoCardScanner
+	 * 
+	 * @param controller the controller class of the system
+	 */
 	public DemoCardScanner(VendingMachineController controller) {
 		this.controller = controller;
 	}
 	
 	/**
-	 * Called whenever a card is presented for
-	 * scanning on the card scanner
+	 * Called to scan a card presented
+	 * to the card scanner
 	 * 
 	 * @param card the card presented
-	 * @return a boolean representing the outcome of the scan,
-	 * true when successful with a valid card, false when scan
-	 * fails with an invalid card
 	 */
-	private boolean scan(LoyaltyCard card) {
-		
-		if(Bank.validateCard(card)) {
-			// successful validation
-			scannedCard = card;
-			listening = false;
-			return true;
-		}
-		
-		// unsuccessful validation
-		scannedCard = null;
-		return false;
+	public void scan(LoyaltyCard card) {
+		controller.cardScanned(card);
 	}
 	
 	@Override
 	public void reset() {
-		scannedCard = null;
-		listening = true;
+		listening = true; // listen for new card scans
 	}
-	
+
 	@Override
-	public LoyaltyCard getScannedCard() {
-		return scannedCard;
+	public void disable() {
+		listening = false;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		/*
+		 * The `linkedAccount` variable will hold an account
+		 * number of a demo bank account when a valid card
+		 * is presented
+		 */
 		int linkedAccount = 0;
 		
-		switch(e.getActionCommand()) {
+		switch(e.getActionCommand()) { // only need to set for valid cards
 		case "card1":
 			linkedAccount = 123456789;
 			break;
@@ -74,7 +67,7 @@ public class DemoCardScanner implements CardScanner, ActionListener {
 		}
 		
 		if(listening) {	// only scan the card when listening for scans
-			controller.cardScanned(scan(new LoyaltyCard(linkedAccount)));
+			scan(new LoyaltyCard(linkedAccount));
 		}
 		
 	}
